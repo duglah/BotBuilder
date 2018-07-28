@@ -777,6 +777,14 @@ var ChatConnector = (function () {
             'locale': 'textLocale',
             'channelData': 'sourceEvent'
         });
+        //Set textLocale for MS Teams and Skype
+        if(!msg.textLocale && msg.entities && msg.entities[0]) {
+            msg.textLocale = msg.entities[0].locale;
+        }
+        //Set textLocale for telegram
+        if(!msg.textLocale && msg.sourceEvent && msg.sourceEvent.message && msg.sourceEvent.message.from) {
+            msg.textLocale = msg.sourceEvent.message.from.language_code;
+        }
         msg.text = msg.text || '';
         msg.attachments = msg.attachments || [];
         msg.entities = msg.entities || [];
